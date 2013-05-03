@@ -12,6 +12,15 @@ Board.prototype.getCellIndex = function(col, row) {
 	return (col * this.rowCount) + row;
 };
 
+Board.prototype.getCellColumnRow = function(index) {
+	if (index < 0 || index >= (this.rowCount * this.columnCount)) {
+		throw new Error("Index out of bounds");
+	}
+	var col = Math.floor(index / this.rowCount);
+	var row = index % this.rowCount;
+	return [col, row];
+};
+
 Board.prototype.getCellContents = function(col, row) {
 	var index = this.getCellIndex(col, row);
 	return this.cells[index];

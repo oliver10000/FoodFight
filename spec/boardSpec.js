@@ -86,4 +86,27 @@ describe('Board class', function() {
 			expect(board.getCellContents(3, 13)).toEqual('started at 3,5');
 		});
 	});
+	
+	describe('getCellColumnRow function', function() {
+		var board = {};
+		beforeEach(function() {
+			board = new Board(6, 8);
+		});
+		it('throws an error for an index above range', function() {
+			expect(function() { board.getCellColumnRow(board.rowCount * board.columnCount + 1); }).toThrow("Index out of bounds");
+		});
+		it('throws an error for an index below range', function() {
+			expect(function() { board.getCellColumnRow(-1); }).toThrow("Index out of bounds");
+		});
+		it('returns a 2-element array for a valid index', function() {
+			var colRow = board.getCellColumnRow(24);
+			expect(colRow.length).toEqual(2);
+		});
+		it('returns the correct column and row for a valid index', function() {
+			var index = board.getCellIndex(5, 7);
+			var colRow = board.getCellColumnRow(index);
+			expect(colRow[0]).toEqual(5);
+			expect(colRow[1]).toEqual(7);
+		});
+	});
 });
