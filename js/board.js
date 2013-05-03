@@ -21,6 +21,26 @@ Board.prototype.getCellColumnRow = function(index) {
 	return [col, row];
 };
 
+Board.prototype.getNeighbors = function(index) {
+	var colRow = this.getCellColumnRow(index);
+	var col = colRow[0];
+	var row = colRow[1];
+	var neighbors = [];
+	if (col >= 1) {
+		neighbors.push(this.getCellIndex(col - 1, row));
+	}
+	if (col < (this.columnCount - 1)) {
+		neighbors.push(this.getCellIndex(col + 1, row));
+	}
+	if (row >= 1) {
+		neighbors.push(this.getCellIndex(col, row - 1));
+	}
+	if (row < (this.rowCount - 1)) {
+		neighbors.push(this.getCellIndex(col, row + 1));
+	}
+	return neighbors;
+};
+
 Board.prototype.getCellContents = function(col, row) {
 	var index = this.getCellIndex(col, row);
 	return this.cells[index];

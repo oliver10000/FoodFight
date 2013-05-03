@@ -109,4 +109,37 @@ describe('Board class', function() {
 			expect(colRow[1]).toEqual(7);
 		});
 	});
+	
+	describe('getNeighbors function', function() {
+		var board = {};
+		beforeEach(function() {
+			board = new Board(8, 10);
+		});
+		it('throws an error for an index above range', function() {
+			expect(function() { board.getNeighbors(board.rowCount * board.columnCount + 1); }).toThrow("Index out of bounds");
+		});
+		it('throws an error for an index below range', function() {
+			expect(function() { board.getNeighbors(-1); }).toThrow("Index out of bounds");
+		});
+		it('returns only right and bottom for the top-left corner', function() {
+			var neighbors = board.getNeighbors(0);
+			expect(neighbors.length).toEqual(2);
+			expect(neighbors[0]).toEqual(board.rowCount);
+			expect(neighbors[1]).toEqual(1);
+		});
+		it('returns four neighbors for the center cell', function() {
+			var neighbors = board.getNeighbors(board.getCellIndex(board.columnCount / 2, board.rowCount / 2));
+			expect(neighbors.length).toEqual(4);
+		});
+		it('returns left, right, top, bottom of the center cell', function() {
+			var centerColumn = board.columnCount / 2;
+			var centerRow = board.rowCount / 2;
+			var centerIndex = board.getCellIndex(centerColumn, centerRow);
+			var neighbors = board.getNeighbors(centerIndex);
+			expect(neighbors).toContain(centerIndex - board.rowCount); // left
+			expect(neighbors).toContain(centerIndex + board.rowCount); // right
+			expect(neighbors).toContain(centerIndex - 1); // top
+			expect(neighbors).toContain(centerIndex + 1); // bottom
+		});
+	});
 });
