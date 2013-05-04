@@ -176,5 +176,22 @@ describe('Board class', function() {
 			expect(cluster2).toContain(board.getCellIndex(12, 14));
 			expect(cluster2).toContain(board.getCellIndex(13, 14));
 		});
+		
+		it('can use a custom matching function', function() {
+			board.setCellContents(6, 6, 5.2);
+			board.setCellContents(6, 5, 5.4);
+			board.setCellContents(9, 12, 8.7);
+			board.setCellContents(10, 12, 8.8);
+			board.setCellContents(11, 12, 8.9);
+			var components = board.getConnectedComponents(function(x, y) {
+				return Math.floor(x) == Math.floor(y);
+			});
+			expect(components.length).toEqual(2);
+			var component2 = components[1];
+			expect(component2.length).toEqual(3);
+			expect(component2).toContain(board.getCellIndex(9, 12));
+			expect(component2).toContain(board.getCellIndex(10, 12));
+			expect(component2).toContain(board.getCellIndex(11, 12));
+		});
 	});
 });

@@ -68,26 +68,28 @@ Board.prototype.compactColumn = function(col) {
 	}
 };
 
-Board.prototype.visitConnectedComponent = function(column, row, matchContents, seen, component) {
+Board.prototype.visitConnectedComponent = function(column, row, matchContents, matcher, seen, component) {
 	var index = this.getCellIndex(column, row);
     if (column < 0
         || column >= this.columnCount
         || row < 0
         || row >= this.rowCount
-        || seen[index]
-        || this.getCellContents(column, row) != matchContents) {
+        || seen[index]) {
         return 0;
+    }
+    if (typeof(matcher) != 'undefined' ? !matcher(this.cells[index], matchContents) : this.cells[index] != matchContents) {
+    	return 0;
     }
     seen[index] = true;
     component.push(index);
     return 1
-        + this.visitConnectedComponent(column - 1, row, matchContents, seen, component)
-        + this.visitConnectedComponent(column, row - 1, matchContents, seen, component)
-        + this.visitConnectedComponent(column + 1, row, matchContents, seen, component)
-        + this.visitConnectedComponent(column, row + 1, matchContents, seen, component);
+        + this.visitConnectedComponent(column - 1, row, matchContents, matcher, seen, component)
+        + this.visitConnectedComponent(column, row - 1, matchContents, matcher, seen, component)
+        + this.visitConnectedComponent(column + 1, row, matchContents, matcher, seen, component)
+        + this.visitConnectedComponent(column, row + 1, matchContents, matcher, seen, component);
 };
 
-Board.prototype.getConnectedComponents = function() {
+Board.prototype.getConnectedComponents = function(matcher) {
 	var components = [];
 	var seen = {};
 	var end = this.rowCount * this.columnCount;
@@ -100,7 +102,7 @@ Board.prototype.getConnectedComponents = function() {
 		}
 		var colRow = this.getCellColumnRow(i);
 		var component = [];
-		this.visitConnectedComponent(colRow[0], colRow[1], this.cells[i], seen, component);
+		this.visitConnectedComponent(colRow[0], colRow[1], this.cells[i], matcher, seen, component);
 		components.push(component);
 	}
 	return components;
