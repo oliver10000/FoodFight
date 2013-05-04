@@ -142,4 +142,39 @@ describe('Board class', function() {
 			expect(neighbors).toContain(centerIndex + 1); // bottom
 		});
 	});
+
+	describe('getConnectedComponents function', function() {
+		var board = {};
+		beforeEach(function() {
+			board = new Board(15, 20);
+		});
+		it('returns a one-element array for a single cell', function() {
+			board.setCellContents(5, 10, {});
+			var components = board.getConnectedComponents();
+			expect(components.length).toEqual(1);
+			expect(components[0]).toEqual([board.getCellIndex(5, 10)]);
+		});
+		it('returns two components when there are two non-adjacent clusters of cells', function() {
+			board.setCellContents(3, 3, 'cluster 1');
+			board.setCellContents(3, 4, 'cluster 1');
+			board.setCellContents(3, 5, 'cluster 1');
+			board.setCellContents(10, 14, 'cluster 2');
+			board.setCellContents(11, 14, 'cluster 2');
+			board.setCellContents(12, 14, 'cluster 2');
+			board.setCellContents(13, 14, 'cluster 2');
+			var components = board.getConnectedComponents();
+			expect(components.length).toEqual(2);
+			var cluster1 = components[0];
+			expect(cluster1.length).toEqual(3);
+			expect(cluster1).toContain(board.getCellIndex(3, 3));
+			expect(cluster1).toContain(board.getCellIndex(3, 4));
+			expect(cluster1).toContain(board.getCellIndex(3, 5));
+			var cluster2 = components[1];
+			expect(cluster2.length).toEqual(4);
+			expect(cluster2).toContain(board.getCellIndex(10, 14));
+			expect(cluster2).toContain(board.getCellIndex(11, 14));
+			expect(cluster2).toContain(board.getCellIndex(12, 14));
+			expect(cluster2).toContain(board.getCellIndex(13, 14));
+		});
+	});
 });

@@ -67,3 +67,41 @@ Board.prototype.compactColumn = function(col) {
 		}
 	}
 };
+
+Board.prototype.visitConnectedComponent = function(column, row, matchContents, seen, component) {
+	var index = this.getCellIndex(column, row);
+    if (column < 0
+        || column >= this.columnCount
+        || row < 0
+        || row >= this.rowCount
+        || seen[index]
+        || this.getCellContents(column, row) != matchContents) {
+        return 0;
+    }
+    seen[index] = true;
+    component.push(index);
+    return 1
+        + this.visitConnectedComponent(column - 1, row, matchContents, seen, component)
+        + this.visitConnectedComponent(column, row - 1, matchContents, seen, component)
+        + this.visitConnectedComponent(column + 1, row, matchContents, seen, component)
+        + this.visitConnectedComponent(column, row + 1, matchContents, seen, component);
+};
+
+Board.prototype.getConnectedComponents = function() {
+	var components = [];
+	var seen = {};
+	var end = this.rowCount * this.columnCount;
+	for (var i = 0; i < end; ++i) {
+		if (this.cells[i] == undefined) {
+			continue;
+		}
+		if (seen[i]) {
+			continue;
+		}
+		var colRow = this.getCellColumnRow(i);
+		var component = [];
+		this.visitConnectedComponent(colRow[0], colRow[1], this.cells[i], seen, component);
+		components.push(component);
+	}
+	return components;
+};
