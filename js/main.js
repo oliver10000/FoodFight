@@ -12,4 +12,12 @@ var update = function() {
 	stage.update();
 };
 
-setInterval(update, 1);
+var board = new Board(6, 12);
+
+createjs.Ticker.addEventListener("tick", handleTick);
+
+function handleTick(event) {
+	if (!event.paused) {
+		update();
+	}
+}
