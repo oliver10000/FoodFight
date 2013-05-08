@@ -30,6 +30,15 @@ describe('Board class', function() {
 		it('returns false for a column too large', function() {
 			expect(board.isInBounds(100, 4)).toBeFalsy();
 		});
+		it('returns true for (0, 0)', function() {
+			expect(board.isInBounds(0, 0)).toBeTruthy();
+		});
+		it('returns false for (0, rowCount)', function() {
+			expect(board.isInBounds(0, board.rowCount)).toBeFalsy();
+		});
+		it('returns false for (columnCount, 0)', function() {
+			expect(board.isInBounds(board.columnCount, 0)).toBeFalsy();
+		});
 	});
 	
 	describe('getCellContents function', function() {
@@ -60,6 +69,16 @@ describe('Board class', function() {
 			var contents = {};
 			board.setCellContents(2, 2, contents);
 			expect(board.setCellContents(2, 2, {})).toEqual(contents);
+		});
+		it('throws error when row ordinate is out of bounds', function() {
+			expect(function() {
+				board.setCellContents(0, board.rowCount, {});
+			}).toThrow("Coordinates out of bounds");
+		});
+		it('throws error when column ordinate is out of bounds', function() {
+			expect(function() {
+				board.setCellContents(board.columnCount, 0, {});
+			}).toThrow("Coordinates out of bounds");
 		});
 	});
 	
