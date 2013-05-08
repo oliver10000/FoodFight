@@ -212,5 +212,18 @@ describe('Board class', function() {
 			expect(component2).toContain(board.getCellIndex(10, 12));
 			expect(component2).toContain(board.getCellIndex(11, 12));
 		});
+		
+		it('can detect a cluster along the right edge', function() {
+			board.setCellContents(board.columnCount - 1, 10, 'RightEdge');
+			board.setCellContents(board.columnCount - 1, 11, 'RightEdge');
+			board.setCellContents(board.columnCount - 1, 12, 'RightEdge');
+			var components = board.getConnectedComponents();
+			expect(components.length).toEqual(1);
+			var edgeCluster = components[0];
+			expect(edgeCluster.length).toEqual(3);
+			expect(edgeCluster).toContain(board.getCellIndex(board.columnCount - 1, 10));
+			expect(edgeCluster).toContain(board.getCellIndex(board.columnCount - 1, 11));
+			expect(edgeCluster).toContain(board.getCellIndex(board.columnCount - 1, 12));
+		});
 	});
 });
