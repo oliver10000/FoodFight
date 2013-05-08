@@ -225,5 +225,18 @@ describe('Board class', function() {
 			expect(edgeCluster).toContain(board.getCellIndex(board.columnCount - 1, 11));
 			expect(edgeCluster).toContain(board.getCellIndex(board.columnCount - 1, 12));
 		});
+		
+		it('can detect a cluster along the bottom edge', function() {
+			board.setCellContents(4, board.rowCount - 1, 'BottomEdge');
+			board.setCellContents(5, board.rowCount - 1, 'BottomEdge');
+			board.setCellContents(6, board.rowCount - 1, 'BottomEdge');
+			var components = board.getConnectedComponents();
+			expect(components.length).toEqual(1);
+			var edgeCluster = components[0];
+			expect(edgeCluster.length).toEqual(3);
+			expect(edgeCluster).toContain(board.getCellIndex(4, board.rowCount - 1));
+			expect(edgeCluster).toContain(board.getCellIndex(5, board.rowCount - 1));
+			expect(edgeCluster).toContain(board.getCellIndex(6, board.rowCount - 1));
+		});
 	});
 });

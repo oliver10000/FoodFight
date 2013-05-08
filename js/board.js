@@ -73,23 +73,26 @@ Board.prototype.compactColumn = function(col) {
 
 Board.prototype.visitConnectedComponent = function(column, row, matchContents, matcher, seen, component) {
 	var index = this.getCellIndex(column, row);
-    if (column < 0
-        || column >= this.columnCount
-        || row < 0
-        || row >= this.rowCount
-        || seen[index]) {
-        return 0;
+    if (seen[index]) {
+        return;
     }
     if (typeof(matcher) != 'undefined' ? !matcher(this.cells[index], matchContents) : this.cells[index] != matchContents) {
-    	return 0;
+    	return;
     }
     seen[index] = true;
     component.push(index);
-    return 1
-        + this.visitConnectedComponent(column - 1, row, matchContents, matcher, seen, component)
-        + this.visitConnectedComponent(column, row - 1, matchContents, matcher, seen, component)
-        + this.visitConnectedComponent(column + 1, row, matchContents, matcher, seen, component)
-        + this.visitConnectedComponent(column, row + 1, matchContents, matcher, seen, component);
+    if (column > 0) {
+    	this.visitConnectedComponent(column - 1, row, matchContents, matcher, seen, component);
+    }
+    if (row > 0) {
+    	this.visitConnectedComponent(column, row - 1, matchContents, matcher, seen, component);
+    }
+	if (column < (this.columnCount - 1)) {
+		this.visitConnectedComponent(column + 1, row, matchContents, matcher, seen, component);
+	}
+	if (row < (this.rowCount - 1)) {
+		this.visitConnectedComponent(column, row + 1, matchContents, matcher, seen, component);
+	}
 };
 
 Board.prototype.getConnectedComponents = function(matcher) {
