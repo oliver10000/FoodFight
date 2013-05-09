@@ -10,6 +10,31 @@ describe('Board class', function() {
 		expect(board.columnCount).toEqual(10);
 	});
 	
+	describe('cellContentsChanged event', function() {
+		var board = {};
+		beforeEach(function() {
+			board = new Board(11, 13);
+		});
+		
+		it('fires when cell contents change', function() {
+			board.addEventListener("cellContentsChanged", function(event) {
+				cellContentsChangeEvent = event;
+			});
+			board.setCellContents(0, 0, {});
+			expect(cellContentsChangeEvent).toBeDefined();
+		});
+		
+		it('contains the coordinates of the cell that was changed', function() {
+			board.addEventListener("cellContentsChanged", function(event) {
+				cellContentsChangeEvent = event;
+			});
+			board.setCellContents(3, 5, {});
+			expect(cellContentsChangeEvent.column).toEqual(3);
+			expect(cellContentsChangeEvent.row).toEqual(5);
+		});
+		
+	});
+	
 	describe('isInBounds function', function() {
 		var board = {};
 		beforeEach(function() {
@@ -104,6 +129,15 @@ describe('Board class', function() {
 			expect(board.getCellContents(3, 12)).toEqual('started at 3,2');
 			expect(board.getCellContents(3, 13)).toEqual('started at 3,5');
 		});
+//		it('dispatches events', function() {
+//			board.setCellContents(4, 8);
+//			var events = [];
+//			board.addEventListener('cellContentsChanged', function(e) {
+//				events.push(e);
+//			});
+//			board.compactColumn(4);
+//			expect(events.length).toEqual(2);
+//		});
 	});
 	
 	describe('getCellColumnRow function', function() {

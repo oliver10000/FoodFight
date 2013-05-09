@@ -2,6 +2,7 @@ function Board(columns, rows) {
 	this.rowCount = rows;
 	this.columnCount = columns;
 	this.cells = [];
+	createjs.EventDispatcher.initialize(Board.prototype);
 }
 
 Board.prototype.isInBounds = function(col, row) {
@@ -53,6 +54,7 @@ Board.prototype.setCellContents = function(col, row, contents) {
 	var index = this.getCellIndex(col, row);
 	var former = this.cells[index];
 	this.cells[index] = contents;
+	this.dispatchEvent({type:"cellContentsChanged", column:col, row:row});
 	return former;
 };
 
