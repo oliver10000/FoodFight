@@ -1,9 +1,5 @@
 describe('Board class', function() {
 	
-	it('exists', function() {
-		expect(new Board).toBeDefined();
-	});
-	
 	it('has rowCount and columnCount properties', function() {
 		var board = new Board(10, 12);
 		expect(board.rowCount).toEqual(12);
@@ -33,6 +29,15 @@ describe('Board class', function() {
 			board.setCellContents(3, 5, {});
 			expect(cellContentsChangeEvent.column).toEqual(3);
 			expect(cellContentsChangeEvent.row).toEqual(5);
+		});
+		
+		it('contains the index of the cell that was changed', function() {
+			var cellContentsChangeEvent = undefined;
+			board.addEventListener("cellContentsChanged", function(event) {
+				cellContentsChangeEvent = event;
+			});
+			board.setCellContents(4, 6, {});
+			expect(cellContentsChangeEvent.index).toEqual(board.getCellIndex(4, 6));
 		});
 		
 	});

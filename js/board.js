@@ -54,7 +54,7 @@ Board.prototype.setCellContents = function(col, row, contents) {
 	var index = this.getCellIndex(col, row);
 	var former = this.cells[index];
 	this.cells[index] = contents;
-	this.dispatchEvent({type:"cellContentsChanged", column:col, row:row});
+	this.dispatchEvent({type:"cellContentsChanged", column:col, row:row, index:index});
 	return former;
 };
 
