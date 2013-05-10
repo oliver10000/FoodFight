@@ -9,9 +9,12 @@ BoardRenderer.prototype.handleEvent = function(event) {
 	if (this.hasCellRenderer(event.index)) {
 		this.stage.removeChild(this.cellRenderers[event.index]);
 	}
-	var cellRenderer = this.createCellRenderer(this.board.getCellContents(event.column, event.row));
-	this.cellRenderers[event.index] = cellRenderer;
-	this.stage.addChild(cellRenderer);
+	var newContents = this.board.getCellContents(event.column, event.row);
+	if (typeof(newContents) != 'undefined') {
+		var cellRenderer = this.createCellRenderer(newContents);
+		this.cellRenderers[event.index] = cellRenderer;
+		this.stage.addChild(cellRenderer);
+	}
 };
 
 BoardRenderer.prototype.createCellRenderer = function(cellContents) {

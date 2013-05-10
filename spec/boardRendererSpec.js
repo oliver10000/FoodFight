@@ -25,6 +25,13 @@ describe('BoardRenderer class', function() {
 		expect(stage.getNumChildren()).toEqual(1);
 	});
 	
+	it('removes the renderer when a cell is cleared by setting it to undefined', function() {
+		board.setCellContents(5, 5, {});
+		expect(stage.getNumChildren()).toEqual(1);
+		board.setCellContents(5, 5, undefined);
+		expect(stage.getNumChildren()).toEqual(0);
+	});
+	
 	describe('hasCellRenderer function', function() {
 		it('returns false when board is empty', function() {
 			for (var i = 0; i < (board.rowCount * board.columnCount); ++i) {
