@@ -65,8 +65,8 @@ Board.prototype.compactColumn = function(col) {
 	for (var i = colEnd; i >= colStart; --i) {
 		if (this.cells[i]) {
 			if (i != bottom) {
-				this.cells[bottom] = this.cells[i];
-				this.cells[i] = undefined;
+				this.setCellContents(col, bottom - colStart, this.cells[i]);
+				this.setCellContents(col, i - colStart, undefined);
 			}
 			bottom--;
 		}
