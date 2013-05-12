@@ -10,6 +10,9 @@ Board.prototype.isInBounds = function(col, row) {
 };
 
 Board.prototype.getCellIndex = function(col, row) {
+	if (!this.isInBounds(col, row)) {
+		throw new Error("Coordinates out of bounds");
+	}
 	return (col * this.rowCount) + row;
 };
 
@@ -48,9 +51,6 @@ Board.prototype.getCellContents = function(col, row) {
 };
 
 Board.prototype.setCellContents = function(col, row, contents) {
-	if (!this.isInBounds(col, row)) {
-		throw new Error("Coordinates out of bounds");
-	}
 	var index = this.getCellIndex(col, row);
 	var former = this.cells[index];
 	this.cells[index] = contents;

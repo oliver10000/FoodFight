@@ -79,7 +79,9 @@ describe('Board class', function() {
 			board = new Board(10, 15);
 		});
 		it('returns nil for an out of bounds cell', function() {
-			expect(board.getCellContents(-2, 1)).toBeUndefined();
+			expect(function () {
+				board.getCellContents(-2, 1);
+			}).toThrow('Coordinates out of bounds');
 		});
 		it('returns nil for a cell that has never been set', function() {
 			expect(board.getCellContents(5, 8)).toBeUndefined();
@@ -105,7 +107,7 @@ describe('Board class', function() {
 		it('throws error when row ordinate is out of bounds', function() {
 			expect(function() {
 				board.setCellContents(0, board.rowCount, {});
-			}).toThrow("Coordinates out of bounds");
+			}).toThrow('Coordinates out of bounds');
 		});
 		it('throws error when column ordinate is out of bounds', function() {
 			expect(function() {
