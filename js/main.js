@@ -9,10 +9,14 @@ var background = new createjs.Bitmap("images/background.png");
 stage.addChild(background);
 
 var update = function() {
+	var randCol = Math.random() * board.columnCount;
+	var randRow = Math.random() * board.rowCount;
+	board.setCellContents(randCol, randRow, {});
 	stage.update();
 };
 
 var board = new Board(6, 12);
+var boardRenderer = new BoardRenderer(board, stage);
 
 createjs.Ticker.addEventListener("tick", handleTick);
 

@@ -114,6 +114,11 @@ describe('Board class', function() {
 				board.setCellContents(board.columnCount, 0, {});
 			}).toThrow("Coordinates out of bounds");
 		});
+		it('casts non-integer values', function() {
+			var contents = {};
+			board.setCellContents(6.789, 7.123, contents);
+			expect(board.getCellContents(6, 7)).toEqual(contents);
+		});
 	});
 	
 	describe('compactColumn function', function() {
