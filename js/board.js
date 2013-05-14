@@ -3,6 +3,30 @@ function Board(columns, rows) {
 	this.columnCount = columns;
 	this.cells = [];
 	createjs.EventDispatcher.initialize(Board.prototype);
+
+	this.visitConnectedComponent = function(column, row, matchContents, matcher, seen, component) {
+		var index = this.getCellIndex(column, row);
+	    if (seen[index]) {
+	        return;
+	    }
+	    if (typeof(matcher) != 'undefined' ? !matcher(this.cells[index], matchContents) : this.cells[index] != matchContents) {
+	    	return;
+	    }
+	    seen[index] = true;
+	    component.push(index);
+	    if (column > 0) {
+	    	this.visitConnectedComponent(column - 1, row, matchContents, matcher, seen, component);
+	    }
+	    if (row > 0) {
+	    	this.visitConnectedComponent(column, row - 1, matchContents, matcher, seen, component);
+	    }
+		if (column < (this.columnCount - 1)) {
+			this.visitConnectedComponent(column + 1, row, matchContents, matcher, seen, component);
+		}
+		if (row < (this.rowCount - 1)) {
+			this.visitConnectedComponent(column, row + 1, matchContents, matcher, seen, component);
+		}
+	};
 }
 
 Board.prototype.isInBounds = function(col, row) {
@@ -72,30 +96,6 @@ Board.prototype.compactColumn = function(col) {
 			}
 			bottom--;
 		}
-	}
-};
-
-Board.prototype.visitConnectedComponent = function(column, row, matchContents, matcher, seen, component) {
-	var index = this.getCellIndex(column, row);
-    if (seen[index]) {
-        return;
-    }
-    if (typeof(matcher) != 'undefined' ? !matcher(this.cells[index], matchContents) : this.cells[index] != matchContents) {
-    	return;
-    }
-    seen[index] = true;
-    component.push(index);
-    if (column > 0) {
-    	this.visitConnectedComponent(column - 1, row, matchContents, matcher, seen, component);
-    }
-    if (row > 0) {
-    	this.visitConnectedComponent(column, row - 1, matchContents, matcher, seen, component);
-    }
-	if (column < (this.columnCount - 1)) {
-		this.visitConnectedComponent(column + 1, row, matchContents, matcher, seen, component);
-	}
-	if (row < (this.rowCount - 1)) {
-		this.visitConnectedComponent(column, row + 1, matchContents, matcher, seen, component);
 	}
 };
 

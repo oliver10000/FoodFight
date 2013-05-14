@@ -5,19 +5,19 @@ function BoardRenderer(board, stage) {
 	this.board.addEventListener('cellContentsChanged', this);
 	this.cellWidth = 80;
 	this.cellHeight = 80;
-}
 
-BoardRenderer.prototype.handleEvent = function(event) {
-	if (this.hasCellRenderer(event.index)) {
-		this.stage.removeChild(this.cellRenderers[event.index]);
-	}
-	var newContents = this.board.getCellContents(event.column, event.row);
-	if (typeof(newContents) != 'undefined') {
-		var cellRenderer = this.createCellRenderer(event.column, event.row, newContents);
-		this.cellRenderers[event.index] = cellRenderer;
-		this.stage.addChild(cellRenderer);
-	}
-};
+	this.handleEvent = function(event) {
+		if (this.hasCellRenderer(event.index)) {
+			this.stage.removeChild(this.cellRenderers[event.index]);
+		}
+		var newContents = this.board.getCellContents(event.column, event.row);
+		if (typeof(newContents) != 'undefined') {
+			var cellRenderer = this.createCellRenderer(event.column, event.row, newContents);
+			this.cellRenderers[event.index] = cellRenderer;
+			this.stage.addChild(cellRenderer);
+		}
+	};
+}
 
 BoardRenderer.prototype.createCellRenderer = function(column, row, cellContents) {
 	var g = new createjs.Graphics();
