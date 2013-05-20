@@ -12,8 +12,12 @@
 		<canvas id='gameCanvas' width='512' height='480'>
 		</canvas>
 		<script>
-			var game = new Game(gameCanvas);
+			game = new Game(gameCanvas);
 			game.setBackground('images/background.png');
 		</script>
+		<p>
+			<button onclick='game.start();'>Start</button>
+			<button onclick='game.stop();'>Stop</button>
+		</p>
 	</body>
 </html>

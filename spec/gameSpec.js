@@ -27,4 +27,23 @@ describe('Game class', function() {
 			expect(game.stage.getNumChildren()).toEqual(1);
 		});
 	});
+	
+	describe('start function', function() {
+		it('starts the game', function() {
+			var game = new Game(canvas);
+			expect(game.isRunning()).toBeFalsy();
+			game.start();
+			expect(game.isRunning()).toBeTruthy();
+		});
+	});
+	
+	describe('stop function', function() {
+		it('stops the game', function() {
+			var game = new Game(canvas);
+			game.start();
+			expect(game.isRunning()).toBeTruthy();
+			game.stop();
+			expect(game.isRunning()).toBeFalsy();
+		});
+	});
 });

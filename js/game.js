@@ -3,11 +3,15 @@ function Game(canvas) {
 
 	this.board = new Board(6, 12);
 	this.boardRenderer = new BoardRenderer(this.board, this.stage);
+	
+	this.running = false;
 
 	this.update = function() {
-		var randCol = Math.random() * this.board.columnCount;
-		var randRow = Math.random() * this.board.rowCount;
-		this.board.setCellContents(randCol, randRow, {});
+		if (this.isRunning()) {
+			var randCol = Math.random() * this.board.columnCount;
+			var randRow = Math.random() * this.board.rowCount;
+			this.board.setCellContents(randCol, randRow, {});
+		}
 		this.stage.update();
 	};
 
@@ -28,4 +32,16 @@ Game.prototype.setBackground = function(background) {
 	else {
 		this.stage.addChild(background);
 	}
+};
+
+Game.prototype.isRunning = function() {
+	return this.running;
+};
+
+Game.prototype.start = function() {
+	this.running = true;
+};
+
+Game.prototype.stop = function() {
+	this.running = false;
 };
