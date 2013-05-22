@@ -4,20 +4,33 @@
 		<meta charset="utf-8">
 		<title>FoodFight</title>
 		<script src="http://code.createjs.com/easeljs-0.6.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 	<body>
 		<script src="js/board.js"></script>
 		<script src="js/boardRenderer.js"></script>
 		<script src="js/game.js"></script>
-		<canvas id='gameCanvas' width='512' height='480'>
-		</canvas>
+		<div id="container">
+			<div id="header">
+				<p>Food Fight</p>
+			</div>
+			<div id="nav">
+				<button onclick='game.start();'>Start</button>
+				<button onclick='game.stop();'>Stop</button>
+			</div>
+			<div id="main">
+				<canvas id='gameCanvas' width='480' height='500' />
+			</div>
+			<div id="sidebar">
+				<p></p>
+			</div>
+			<div id="footer">
+				<p>Copyright (c) 2013 Daniel Palma</p>
+			</div>
+		</div>
 		<script>
 			game = new Game(gameCanvas);
 			game.setBackground('images/background.png');
 		</script>
-		<p>
-			<button onclick='game.start();'>Start</button>
-			<button onclick='game.stop();'>Stop</button>
-		</p>
 	</body>
 </html>
