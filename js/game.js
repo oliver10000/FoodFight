@@ -5,12 +5,24 @@ function Game(canvas) {
 	this.boardRenderer = new BoardRenderer(this.board, this.stage);
 	
 	this.running = false;
+	
+	this.lastTime = 0;
+	
+	this.drop = null;
 
 	this.update = function() {
 		if (this.isRunning()) {
-			var randCol = Math.random() * this.board.columnCount;
-			var randRow = Math.random() * this.board.rowCount;
-			this.board.setCellContents(randCol, randRow, {});
+			var time = createjs.Ticker.getTime(true);
+			if (this.lastTime > 0) {
+				var deltaMillis = time - this.lastTime;
+				if (this.drop) {
+					this.drop.y += 15 * (deltaMillis / 1000);
+				}
+				//var randCol = Math.random() * this.board.columnCount;
+				//var randRow = Math.random() * this.board.rowCount;
+				//this.board.setCellContents(randCol, randRow, {});
+			}
+			this.lastTime = time;
 		}
 		this.stage.update();
 	};
@@ -40,6 +52,9 @@ Game.prototype.isRunning = function() {
 
 Game.prototype.start = function() {
 	this.running = true;
+	
+	this.drop = this.boardRenderer.createCellRenderer(4, 0, {});
+	this.stage.addChild(this.drop);
 };
 
 Game.prototype.stop = function() {
