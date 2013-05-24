@@ -16,7 +16,7 @@ function Game(canvas) {
 			if (this.lastTime > 0) {
 				var deltaMillis = time - this.lastTime;
 				if (this.drop) {
-					this.drop.y += 15 * (deltaMillis / 1000);
+					this.drop.y += 40 * (deltaMillis / 1000);
 				}
 				//var randCol = Math.random() * this.board.columnCount;
 				//var randRow = Math.random() * this.board.rowCount;
@@ -53,7 +53,7 @@ Game.prototype.isRunning = function() {
 Game.prototype.start = function() {
 	this.running = true;
 	
-	this.drop = this.boardRenderer.createCellRenderer(4, 0, {});
+	this.drop = this.boardRenderer.createCellRenderer(4, -1, {});
 	this.stage.addChild(this.drop);
 };
 

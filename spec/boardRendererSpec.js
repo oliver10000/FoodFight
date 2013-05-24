@@ -32,6 +32,11 @@ describe('BoardRenderer class', function() {
 		expect(stage.getNumChildren()).toEqual(0);
 	});
 	
+	it('bases cell width and height on board and canvas sizes', function() {
+		expect(boardRenderer.cellWidth).toEqual(stage.canvas.width / board.columnCount);
+		expect(boardRenderer.cellHeight).toEqual(stage.canvas.height / board.rowCount);
+	});
+	
 	describe('hasCellRenderer function', function() {
 		it('returns false when board is empty', function() {
 			for (var i = 0; i < (board.rowCount * board.columnCount); ++i) {

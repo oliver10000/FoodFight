@@ -3,8 +3,8 @@ function BoardRenderer(board, stage) {
 	this.stage = stage;
 	this.cellRenderers = [];
 	this.board.addEventListener('cellContentsChanged', this);
-	this.cellWidth = 80;
-	this.cellHeight = 80;
+	this.cellWidth = stage.canvas.width / board.columnCount;
+	this.cellHeight = stage.canvas.height / board.rowCount;
 
 	this.handleEvent = function(event) {
 		if (this.hasCellRenderer(event.index)) {
