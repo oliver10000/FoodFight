@@ -117,3 +117,14 @@ Board.prototype.getConnectedComponents = function(matcher) {
 	}
 	return components;
 };
+
+Board.prototype.countCellsInColumn = function(column) {
+	var count = 0;
+	var colStart = this.getCellIndex(column, 0);
+	for (var i = 0; i < this.rowCount; ++i) {
+		if (this.cells[colStart + i]) {
+			count++;
+		}
+	}
+	return count;
+};

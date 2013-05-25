@@ -50,4 +50,20 @@ describe('BoardRenderer class', function() {
 			expect(boardRenderer.hasCellRenderer(board.getCellIndex(6, 8))).toBeTruthy();
 		});
 	});
+	
+	describe('getTopOfColumn', function() {
+		it('returns the bottom of the canvas when a column is empty', function() {
+			expect(boardRenderer.getTopOfColumn(3)).toEqual(stage.canvas.height);
+		});
+		it('returns the height of a single cell when a column has one cell', function() {
+			board.setCellContents(4, board.rowCount - 1, {});
+			expect(boardRenderer.getTopOfColumn(4)).toEqual(canvas.height - boardRenderer.cellHeight);
+		});
+		it('returns the top of the canvas when a column is full', function() {
+			for (var i = 0; i < board.rowCount; ++i) {
+				board.setCellContents(2, i, {});
+			}
+			expect(boardRenderer.getTopOfColumn(2)).toEqual(0);
+		});
+	});
 });

@@ -291,4 +291,24 @@ describe('Board class', function() {
 			expect(edgeCluster).toContain(board.getCellIndex(6, board.rowCount - 1));
 		});
 	});
+	
+	describe('countCellsInColumn function', function() {
+		var board = {};
+		beforeEach(function() {
+			board = new Board(15, 20);
+		});
+		it('returns zero when the board is empty', function() {
+			expect(board.countCellsInColumn(4)).toEqual(0);
+		});
+		it('returns one when there is a single cell', function() {
+			board.setCellContents(4, 4, {});
+			expect(board.countCellsInColumn(4)).toEqual(1);
+		});
+		it('returns rowCount when the column is full', function() {
+			for (var i = 0; i < board.rowCount; ++i) {
+				board.setCellContents(5, i, {});
+			}
+			expect(board.countCellsInColumn(5)).toEqual(board.rowCount);
+		});
+	});
 });

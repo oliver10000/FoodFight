@@ -38,3 +38,7 @@ BoardRenderer.prototype.createCellRenderer = function(column, row, cellContents)
 BoardRenderer.prototype.hasCellRenderer = function(index) {
 	return typeof(this.cellRenderers[index]) != 'undefined';
 };
+
+BoardRenderer.prototype.getTopOfColumn = function(column) {
+	return this.stage.canvas.height - (this.board.countCellsInColumn(column) * this.cellHeight);
+};
