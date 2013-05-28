@@ -16,11 +16,15 @@ function Game(canvas) {
 			if (this.lastTime > 0) {
 				var deltaMillis = time - this.lastTime;
 				if (this.drop) {
-					this.drop.y += 40 * (deltaMillis / 1000);
+					this.drop.y += 50 * (deltaMillis / 1000);
+					if ((this.drop.y + this.boardRenderer.cellHeight) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
+						var row = this.board.rowCount - this.board.countCellsInColumn(this.drop.column) - 1;
+						this.board.setCellContents(this.drop.column, row, {});
+						this.stage.removeChild(this.drop);
+						this.drop = null;
+						this.spawnDroppingPiece();
+					}
 				}
-				//var randCol = Math.random() * this.board.columnCount;
-				//var randRow = Math.random() * this.board.rowCount;
-				//this.board.setCellContents(randCol, randRow, {});
 			}
 			this.lastTime = time;
 		}
@@ -31,6 +35,13 @@ function Game(canvas) {
 		if (!event.paused) {
 			this.update();
 		}
+	};
+	
+	this.spawnDroppingPiece = function() {
+		var randCol = Math.random() * this.board.columnCount;
+		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {});
+		this.drop.column = randCol;
+		this.stage.addChild(this.drop);
 	};
 
 	createjs.Ticker.addEventListener("tick", this);
@@ -53,8 +64,7 @@ Game.prototype.isRunning = function() {
 Game.prototype.start = function() {
 	this.running = true;
 	
-	this.drop = this.boardRenderer.createCellRenderer(4, -1, {});
-	this.stage.addChild(this.drop);
+	this.spawnDroppingPiece();
 };
 
 Game.prototype.stop = function() {
