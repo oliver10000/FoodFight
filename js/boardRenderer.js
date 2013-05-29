@@ -3,8 +3,12 @@ function BoardRenderer(board, stage) {
 	this.stage = stage;
 	this.cellRenderers = [];
 	this.board.addEventListener('cellContentsChanged', this);
-	this.cellWidth = stage.canvas.width / board.columnCount;
-	this.cellHeight = stage.canvas.height / board.rowCount;
+	
+	var cellWidth = stage.canvas.width / board.columnCount;
+	var cellHeight = stage.canvas.height / board.rowCount;
+	
+	this.cellWidth = (cellHeight < cellWidth) ? cellHeight : cellWidth;
+	this.cellHeight = this.cellWidth;
 
 	this.handleEvent = function(event) {
 		if (this.hasCellRenderer(event.index)) {
@@ -25,9 +29,10 @@ BoardRenderer.prototype.createCellRenderer = function(column, row, cellContents)
 	g.beginStroke(createjs.Graphics.getRGB(0,0,255,1));
 	var halfCellWidth = this.cellWidth / 2;
 	var halfCellHeight = this.cellHeight / 2;
+	var radius = (halfCellHeight < halfCellWidth) ? halfCellHeight : halfCellWidth;
 	var x = (column * this.cellWidth) + halfCellWidth;
 	var y = (row * this.cellHeight) + halfCellHeight;
-	g.drawCircle(0, 0, (halfCellHeight < halfCellWidth) ? halfCellHeight : halfCellWidth);
+	g.drawCircle(0, 0, radius);
 	g.endStroke();
 	var s = new createjs.Shape(g);
 	s.x = x;

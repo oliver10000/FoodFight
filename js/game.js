@@ -1,7 +1,7 @@
 function Game(canvas) {
 	this.stage = new createjs.Stage(canvas);
 
-	this.board = new Board(6, 12);
+	this.board = new Board(8, 12);
 	this.boardRenderer = new BoardRenderer(this.board, this.stage);
 	
 	this.running = false;
@@ -17,7 +17,7 @@ function Game(canvas) {
 				var deltaMillis = time - this.lastTime;
 				if (this.drop) {
 					this.drop.y += 50 * (deltaMillis / 1000);
-					if ((this.drop.y + this.boardRenderer.cellHeight) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
+					if ((this.drop.y + (this.boardRenderer.cellHeight / 2)) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
 						var row = this.board.rowCount - this.board.countCellsInColumn(this.drop.column) - 1;
 						this.board.setCellContents(this.drop.column, row, {});
 						this.stage.removeChild(this.drop);
@@ -38,7 +38,7 @@ function Game(canvas) {
 	};
 	
 	this.spawnDroppingPiece = function() {
-		var randCol = Math.random() * this.board.columnCount;
+		var randCol = Math.floor(Math.random() * this.board.columnCount);
 		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {});
 		this.drop.column = randCol;
 		this.stage.addChild(this.drop);
