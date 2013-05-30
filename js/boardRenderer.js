@@ -26,7 +26,7 @@ function BoardRenderer(board, stage) {
 BoardRenderer.prototype.createCellRenderer = function(column, row, cellContents) {
 	var g = new createjs.Graphics();
 	g.setStrokeStyle(1);
-	g.beginStroke(createjs.Graphics.getRGB(0,0,255,1));
+	g.beginFill(cellContents.color);
 	var halfCellWidth = this.cellWidth / 2;
 	var halfCellHeight = this.cellHeight / 2;
 	var radius = (halfCellHeight < halfCellWidth) ? halfCellHeight : halfCellWidth;

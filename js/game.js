@@ -9,6 +9,8 @@ function Game(canvas) {
 	this.lastTime = 0;
 	
 	this.drop = null;
+	
+	this.colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'];
 
 	this.update = function() {
 		if (this.isRunning()) {
@@ -19,7 +21,7 @@ function Game(canvas) {
 					this.drop.y += 50 * (deltaMillis / 1000);
 					if ((this.drop.y + (this.boardRenderer.cellHeight / 2)) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
 						var row = this.board.rowCount - this.board.countCellsInColumn(this.drop.column) - 1;
-						this.board.setCellContents(this.drop.column, row, {});
+						this.board.setCellContents(this.drop.column, row, {color:this.drop.color});
 						this.stage.removeChild(this.drop);
 						this.drop = null;
 						this.spawnDroppingPiece();
@@ -39,8 +41,11 @@ function Game(canvas) {
 	
 	this.spawnDroppingPiece = function() {
 		var randCol = Math.floor(Math.random() * this.board.columnCount);
-		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {});
+		var randColorIndex = Math.floor(Math.random() * this.colors.length);
+		var randColor = this.colors[randColorIndex];
+		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {color:randColor});
 		this.drop.column = randCol;
+		this.drop.color = randColor;
 		this.stage.addChild(this.drop);
 	};
 
