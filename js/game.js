@@ -6,41 +6,39 @@ function Game(canvas) {
 	
 	this.running = false;
 	
-	this.lastTime = 0;
-	
 	this.drop = null;
+	
+	this.colors = ['#FF0000', '#00CC00', '#0000FF', '#FFFF00', '#FF6600'];
 
-	this.update = function() {
+	this.update = function(delta) {
 		if (this.isRunning()) {
-			var time = createjs.Ticker.getTime(true);
-			if (this.lastTime > 0) {
-				var deltaMillis = time - this.lastTime;
-				if (this.drop) {
-					this.drop.y += 50 * (deltaMillis / 1000);
-					if ((this.drop.y + (this.boardRenderer.cellHeight / 2)) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
-						var row = this.board.rowCount - this.board.countCellsInColumn(this.drop.column) - 1;
-						this.board.setCellContents(this.drop.column, row, {});
-						this.stage.removeChild(this.drop);
-						this.drop = null;
-						this.spawnDroppingPiece();
-					}
+			if (this.drop) {
+				this.drop.y += 50 * (delta / 1000);
+				if ((this.drop.y + (this.boardRenderer.cellHeight / 2)) > this.boardRenderer.getTopOfColumn(this.drop.column)) {
+					var row = this.board.rowCount - this.board.countCellsInColumn(this.drop.column) - 1;
+					this.board.setCellContents(this.drop.column, row, {color:this.drop.color});
+					this.stage.removeChild(this.drop);
+					this.drop = null;
+					this.spawnDroppingPiece();
 				}
 			}
-			this.lastTime = time;
 		}
 		this.stage.update();
 	};
 
 	this.handleEvent = function(event) {
 		if (!event.paused) {
-			this.update();
+			this.update(event.delta);
 		}
 	};
 	
 	this.spawnDroppingPiece = function() {
 		var randCol = Math.floor(Math.random() * this.board.columnCount);
-		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {});
+		var randColorIndex = Math.floor(Math.random() * this.colors.length);
+		var randColor = this.colors[randColorIndex];
+		this.drop = this.boardRenderer.createCellRenderer(randCol, -1, {color:randColor});
 		this.drop.column = randCol;
+		this.drop.color = randColor;
 		this.stage.addChild(this.drop);
 	};
 
