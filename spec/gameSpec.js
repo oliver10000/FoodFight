@@ -1,8 +1,12 @@
 describe('Game class', function() {
 
-	var canvas = document.createElement("gameSpecCanvas");
+    var canvas;
+
+    beforeEach(function () {
+	canvas = document.createElement("gameSpecCanvas");
 	canvas.width = 400;
 	canvas.height = 600;
+    });
 
 	it('exists', function() {
 		expect(Game.prototype).toBeDefined();

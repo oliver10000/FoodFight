@@ -1,0 +1,24 @@
+{
+  "name": "FoodFight",
+  "version": "0.0.0",
+  "description": "A simple HTML5 game",
+  "main": "index.html",
+  "dependencies": {
+    "grunt": "~0.4.1"
+  },
+  "devDependencies": {
+    "grunt-contrib-jasmine": "~0.5.2"
+  },
+  "scripts": {
+    "test": "test.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dpalma/FoodFight.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dpalma/FoodFight/issues"
+  }
+}
